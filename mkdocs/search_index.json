@@ -21,6 +21,41 @@
             "title": "Module Options"
         }, 
         {
+            "location": "/Quick_Start/", 
+            "text": "Quick Start Guide for ReBloom:\n\n\nBuilding and running:\n\n\ngit clone https://github.com/RedisLabsModules/rebloom.git\n\ncd\n rebloom\nmake\n\n\n# Assuming you have a redis build from the unstable branch:\n\n/path/to/redis-server --loadmodule ./rebloom.so\n\n\n\n\n\nAdding new items to the filter\n\n\n\n\nA new filter is created for you if it does not yet exist\n\n\n\n\n127.0.0.1:6379\n BF.ADD newFilter foo\n(integer) 1\n\n\n\n\n\nChecking if an item exists in the filter\n\n\n127.0.0.1:6379\n BF.EXISTS newFilter foo\n(integer) 1\n\n\n\n\n\n127.0.0.1:6379\n BF.EXISTS newFilter notpresent\n(integer) 0\n\n\n\n\n\nAdding and checking multiple items\n\n\n127.0.0.1:6379\n BF.MADD myFilter foo bar baz\n1) (integer) 1\n2) (integer) 1\n3) (integer) 1\n\n\n\n\n\n127.0.0.1:6379\n BF.MEXISTS myFilter foo nonexist bar\n1) (integer) 1\n2) (integer) 0\n3) (integer) 1\n\n\n\n\n\nCreating a new filter with custom properties\n\n\n127.0.0.1:6379\n BF.RESERVE customFilter 0.0001 600000\nOK\n\n\n\n\n\n127.0.0.1:6379\n BF.MADD customFilter foo bar baz", 
+            "title": "Quick Start"
+        }, 
+        {
+            "location": "/Quick_Start/#quick-start-guide-for-rebloom", 
+            "text": "", 
+            "title": "Quick Start Guide for ReBloom:"
+        }, 
+        {
+            "location": "/Quick_Start/#building-and-running", 
+            "text": "git clone https://github.com/RedisLabsModules/rebloom.git cd  rebloom\nmake # Assuming you have a redis build from the unstable branch: \n/path/to/redis-server --loadmodule ./rebloom.so", 
+            "title": "Building and running:"
+        }, 
+        {
+            "location": "/Quick_Start/#adding-new-items-to-the-filter", 
+            "text": "A new filter is created for you if it does not yet exist   127.0.0.1:6379  BF.ADD newFilter foo\n(integer) 1", 
+            "title": "Adding new items to the filter"
+        }, 
+        {
+            "location": "/Quick_Start/#checking-if-an-item-exists-in-the-filter", 
+            "text": "127.0.0.1:6379  BF.EXISTS newFilter foo\n(integer) 1  127.0.0.1:6379  BF.EXISTS newFilter notpresent\n(integer) 0", 
+            "title": "Checking if an item exists in the filter"
+        }, 
+        {
+            "location": "/Quick_Start/#adding-and-checking-multiple-items", 
+            "text": "127.0.0.1:6379  BF.MADD myFilter foo bar baz\n1) (integer) 1\n2) (integer) 1\n3) (integer) 1  127.0.0.1:6379  BF.MEXISTS myFilter foo nonexist bar\n1) (integer) 1\n2) (integer) 0\n3) (integer) 1", 
+            "title": "Adding and checking multiple items"
+        }, 
+        {
+            "location": "/Quick_Start/#creating-a-new-filter-with-custom-properties", 
+            "text": "127.0.0.1:6379  BF.RESERVE customFilter 0.0001 600000\nOK  127.0.0.1:6379  BF.MADD customFilter foo bar baz", 
+            "title": "Creating a new filter with custom properties"
+        }, 
+        {
             "location": "/Commands/", 
             "text": "ReBloom Full Command Documentation\n\n\nBF.RESERVE\n\n\nFormat:\n\n\nBF.RESERVE {key} {error_rate} {size}\n\n\n\n\n\nDescription:\n\n\nCreates an empty Bloom Filter with a given error ratio and initial capacity.\nThis command is useful if you intend to add many items to a Bloom Filter, \notherwise you can just use \nBF.ADD\n to add items. It will also create one for\nyou.\n\n\nThe initial size and error rate will dictate the performance and memory usage\nof the filter. In general, the higher the lower the error ratio (i.e. the lower\nthe tolerance for false positives) the greater the space consumption per\nfilter entry.\n\n\nParameters:\n\n\n\n\nkey\n: The key under which the filter is to be found\n\n\nerror_rate\n: The percentage of expected false positives to be tolerated.\n    The greater this number, the greater the memory consumption per item\n    and the more CPU usage per operation.\n\n\nsize\n: The number of entries you intend to to add to the filter.\n    Performance will begin to degrade after adding more items than this\n    number. The actual degradation will depend on how far the limit has\n    been exceeded. Performance will degrade linearly as the number of entries\n    grow exponentially.\n\n\n\n\nComplexity\n\n\nO(1)\n\n\nReturns\n\n\nOK on success, error otherwise.\n\n\nBF.ADD\n\n\nFormat\n\n\nBF.ADD {key} {item}\n\n\n\n\n\nDescription\n\n\nAdds an item to the Bloom Filter, creating the filter if it does not yet exist.\n\n\nParameters\n\n\n\n\nkey\n: The name of the filter\n\n\nitem\n: The item to add\n\n\n\n\nComplexity\n\n\nO(log (size/capacity)).\n\n\nReturns\n\n\n1 if the item was newly inserted, or 0 if it may have existed previously.\n\n\nBF.MADD\n\n\nFormat\n\n\n{key} {item} [item...]\n\n\n\n\n\nDescription\n\n\nAdds one or more items to the Bloom Filter, creating the filter if it does not yet exist.\nThis command operates identally to \nBF.ADD\n except it allows multiple inputs and returns\nmultiple values.\n\n\nParameters\n\n\n\n\nkey\n: The name of the filter\n\n\nitems\n: One or more items to add\n\n\n\n\nComplexity\n\n\nO(log (size/capacity)).\n\n\nReturns\n\n\nAn array of booleans (integers). Each element is either true or false depending\non whether the corresponding input element was newly added to the filter or may\nhave previously existed.\n\n\nBF.EXISTS\n\n\nFormat\n\n\nBF.EXISTS {key} {item}\n\n\n\n\n\nDescription\n\n\nCheck if an item may exists, or certainly does not exist in the Bloom Filter.\n\n\nParameters\n\n\n\n\nkey\n: the name of the filter\n\n\nitem\n: the item to check for\n\n\n\n\nComplexity\n\n\nO(log (size/capacity)).\n\n\nReturns\n\n\n0 If the item certainly does not exist, 1 if the item may exist.\n\n\nBF.MEXISTS\n\n\nFormat\n\n\nBF.MEXISTS {key} {item} [item...]\n\n\n\n\n\nDescription\n\n\nCheck if one or more items exist, or certainly do not exist in the filter\n\n\nParameters\n\n\n\n\nkey\n: name of the filter\n\n\nitems\n: one or more items to check\n\n\n\n\nComplexity\n\n\nO(log (size/capacity)).\n\n\nReturns\n\n\nAn array of boolean values (actually integers). A true value means the\ncorresponding item may exist in the filter, while a false value means it does not.", 
             "title": "Commands"

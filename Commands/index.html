@@ -804,7 +804,7 @@ filter entry.</p>
 <li><strong>item</strong>: The item to add</li>
 </ul>
 <h3 id="complexity_1">Complexity<a class="headerlink" href="#complexity_1" title="Permanent link">&para;</a></h3>
-<p>O(log (size/capacity)).</p>
+<p>O(log N).</p>
 <h3 id="returns_1">Returns<a class="headerlink" href="#returns_1" title="Permanent link">&para;</a></h3>
 <p>1 if the item was newly inserted, or 0 if it may have existed previously.</p>
 <h2 id="bfmadd">BF.MADD<a class="headerlink" href="#bfmadd" title="Permanent link">&para;</a></h2>
@@ -823,7 +823,7 @@ multiple values.</p>
 <li><strong>items</strong>: One or more items to add</li>
 </ul>
 <h3 id="complexity_2">Complexity<a class="headerlink" href="#complexity_2" title="Permanent link">&para;</a></h3>
-<p>O(log (size/capacity)).</p>
+<p>O(log N).</p>
 <h3 id="returns_2">Returns<a class="headerlink" href="#returns_2" title="Permanent link">&para;</a></h3>
 <p>An array of booleans (integers). Each element is either true or false depending
 on whether the corresponding input element was newly added to the filter or may
@@ -842,7 +842,7 @@ have previously existed.</p>
 <li><strong>item</strong>: the item to check for</li>
 </ul>
 <h3 id="complexity_3">Complexity<a class="headerlink" href="#complexity_3" title="Permanent link">&para;</a></h3>
-<p>O(log (size/capacity)).</p>
+<p>O(log N).</p>
 <h3 id="returns_3">Returns<a class="headerlink" href="#returns_3" title="Permanent link">&para;</a></h3>
 <p>0 If the item certainly does not exist, 1 if the item may exist.</p>
 <h2 id="bfmexists">BF.MEXISTS<a class="headerlink" href="#bfmexists" title="Permanent link">&para;</a></h2>
@@ -859,7 +859,7 @@ have previously existed.</p>
 <li><strong>items</strong>: one or more items to check</li>
 </ul>
 <h3 id="complexity_4">Complexity<a class="headerlink" href="#complexity_4" title="Permanent link">&para;</a></h3>
-<p>O(log (size/capacity)).</p>
+<p>O(log N).</p>
 <h3 id="returns_4">Returns<a class="headerlink" href="#returns_4" title="Permanent link">&para;</a></h3>
 <p>An array of boolean values (actually integers). A true value means the
 corresponding item may exist in the filter, while a false value means it does not.</p>

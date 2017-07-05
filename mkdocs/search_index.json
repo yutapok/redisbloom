@@ -57,7 +57,7 @@
         }, 
         {
             "location": "/Commands/", 
-            "text": "ReBloom Full Command Documentation\n\n\nBF.RESERVE\n\n\nFormat:\n\n\nBF.RESERVE {key} {error_rate} {size}\n\n\n\n\n\nDescription:\n\n\nCreates an empty Bloom Filter with a given error ratio and initial capacity.\nThis command is useful if you intend to add many items to a Bloom Filter, \notherwise you can just use \nBF.ADD\n to add items. It will also create one for\nyou.\n\n\nThe initial size and error rate will dictate the performance and memory usage\nof the filter. In general, the higher the lower the error ratio (i.e. the lower\nthe tolerance for false positives) the greater the space consumption per\nfilter entry.\n\n\nParameters:\n\n\n\n\nkey\n: The key under which the filter is to be found\n\n\nerror_rate\n: The percentage of expected false positives to be tolerated.\n    The greater this number, the greater the memory consumption per item\n    and the more CPU usage per operation.\n\n\nsize\n: The number of entries you intend to to add to the filter.\n    Performance will begin to degrade after adding more items than this\n    number. The actual degradation will depend on how far the limit has\n    been exceeded. Performance will degrade linearly as the number of entries\n    grow exponentially.\n\n\n\n\nComplexity\n\n\nO(1)\n\n\nReturns\n\n\nOK on success, error otherwise.\n\n\nBF.ADD\n\n\nFormat\n\n\nBF.ADD {key} {item}\n\n\n\n\n\nDescription\n\n\nAdds an item to the Bloom Filter, creating the filter if it does not yet exist.\n\n\nParameters\n\n\n\n\nkey\n: The name of the filter\n\n\nitem\n: The item to add\n\n\n\n\nComplexity\n\n\nO(log (size/capacity)).\n\n\nReturns\n\n\n1 if the item was newly inserted, or 0 if it may have existed previously.\n\n\nBF.MADD\n\n\nFormat\n\n\n{key} {item} [item...]\n\n\n\n\n\nDescription\n\n\nAdds one or more items to the Bloom Filter, creating the filter if it does not yet exist.\nThis command operates identally to \nBF.ADD\n except it allows multiple inputs and returns\nmultiple values.\n\n\nParameters\n\n\n\n\nkey\n: The name of the filter\n\n\nitems\n: One or more items to add\n\n\n\n\nComplexity\n\n\nO(log (size/capacity)).\n\n\nReturns\n\n\nAn array of booleans (integers). Each element is either true or false depending\non whether the corresponding input element was newly added to the filter or may\nhave previously existed.\n\n\nBF.EXISTS\n\n\nFormat\n\n\nBF.EXISTS {key} {item}\n\n\n\n\n\nDescription\n\n\nCheck if an item may exists, or certainly does not exist in the Bloom Filter.\n\n\nParameters\n\n\n\n\nkey\n: the name of the filter\n\n\nitem\n: the item to check for\n\n\n\n\nComplexity\n\n\nO(log (size/capacity)).\n\n\nReturns\n\n\n0 If the item certainly does not exist, 1 if the item may exist.\n\n\nBF.MEXISTS\n\n\nFormat\n\n\nBF.MEXISTS {key} {item} [item...]\n\n\n\n\n\nDescription\n\n\nCheck if one or more items exist, or certainly do not exist in the filter\n\n\nParameters\n\n\n\n\nkey\n: name of the filter\n\n\nitems\n: one or more items to check\n\n\n\n\nComplexity\n\n\nO(log (size/capacity)).\n\n\nReturns\n\n\nAn array of boolean values (actually integers). A true value means the\ncorresponding item may exist in the filter, while a false value means it does not.", 
+            "text": "ReBloom Full Command Documentation\n\n\nBF.RESERVE\n\n\nFormat:\n\n\nBF.RESERVE {key} {error_rate} {size}\n\n\n\n\n\nDescription:\n\n\nCreates an empty Bloom Filter with a given error ratio and initial capacity.\nThis command is useful if you intend to add many items to a Bloom Filter, \notherwise you can just use \nBF.ADD\n to add items. It will also create one for\nyou.\n\n\nThe initial size and error rate will dictate the performance and memory usage\nof the filter. In general, the higher the lower the error ratio (i.e. the lower\nthe tolerance for false positives) the greater the space consumption per\nfilter entry.\n\n\nParameters:\n\n\n\n\nkey\n: The key under which the filter is to be found\n\n\nerror_rate\n: The percentage of expected false positives to be tolerated.\n    The greater this number, the greater the memory consumption per item\n    and the more CPU usage per operation.\n\n\nsize\n: The number of entries you intend to to add to the filter.\n    Performance will begin to degrade after adding more items than this\n    number. The actual degradation will depend on how far the limit has\n    been exceeded. Performance will degrade linearly as the number of entries\n    grow exponentially.\n\n\n\n\nComplexity\n\n\nO(1)\n\n\nReturns\n\n\nOK on success, error otherwise.\n\n\nBF.ADD\n\n\nFormat\n\n\nBF.ADD {key} {item}\n\n\n\n\n\nDescription\n\n\nAdds an item to the Bloom Filter, creating the filter if it does not yet exist.\n\n\nParameters\n\n\n\n\nkey\n: The name of the filter\n\n\nitem\n: The item to add\n\n\n\n\nComplexity\n\n\nO(log N).\n\n\nReturns\n\n\n1 if the item was newly inserted, or 0 if it may have existed previously.\n\n\nBF.MADD\n\n\nFormat\n\n\n{key} {item} [item...]\n\n\n\n\n\nDescription\n\n\nAdds one or more items to the Bloom Filter, creating the filter if it does not yet exist.\nThis command operates identally to \nBF.ADD\n except it allows multiple inputs and returns\nmultiple values.\n\n\nParameters\n\n\n\n\nkey\n: The name of the filter\n\n\nitems\n: One or more items to add\n\n\n\n\nComplexity\n\n\nO(log N).\n\n\nReturns\n\n\nAn array of booleans (integers). Each element is either true or false depending\non whether the corresponding input element was newly added to the filter or may\nhave previously existed.\n\n\nBF.EXISTS\n\n\nFormat\n\n\nBF.EXISTS {key} {item}\n\n\n\n\n\nDescription\n\n\nCheck if an item may exists, or certainly does not exist in the Bloom Filter.\n\n\nParameters\n\n\n\n\nkey\n: the name of the filter\n\n\nitem\n: the item to check for\n\n\n\n\nComplexity\n\n\nO(log N).\n\n\nReturns\n\n\n0 If the item certainly does not exist, 1 if the item may exist.\n\n\nBF.MEXISTS\n\n\nFormat\n\n\nBF.MEXISTS {key} {item} [item...]\n\n\n\n\n\nDescription\n\n\nCheck if one or more items exist, or certainly do not exist in the filter\n\n\nParameters\n\n\n\n\nkey\n: name of the filter\n\n\nitems\n: one or more items to check\n\n\n\n\nComplexity\n\n\nO(log N).\n\n\nReturns\n\n\nAn array of boolean values (actually integers). A true value means the\ncorresponding item may exist in the filter, while a false value means it does not.", 
             "title": "Commands"
         }, 
         {
@@ -117,7 +117,7 @@
         }, 
         {
             "location": "/Commands/#complexity_1", 
-            "text": "O(log (size/capacity)).", 
+            "text": "O(log N).", 
             "title": "Complexity"
         }, 
         {
@@ -147,7 +147,7 @@
         }, 
         {
             "location": "/Commands/#complexity_2", 
-            "text": "O(log (size/capacity)).", 
+            "text": "O(log N).", 
             "title": "Complexity"
         }, 
         {
@@ -177,7 +177,7 @@
         }, 
         {
             "location": "/Commands/#complexity_3", 
-            "text": "O(log (size/capacity)).", 
+            "text": "O(log N).", 
             "title": "Complexity"
         }, 
         {
@@ -207,7 +207,7 @@
         }, 
         {
             "location": "/Commands/#complexity_4", 
-            "text": "O(log (size/capacity)).", 
+            "text": "O(log N).", 
             "title": "Complexity"
         }, 
         {

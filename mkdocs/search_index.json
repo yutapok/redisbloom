@@ -22,18 +22,18 @@
         }, 
         {
             "location": "/Quick_Start/", 
-            "text": "Quick Start Guide for ReBloom:\n\n\nBuilding and running:\n\n\ngit clone https://github.com/RedisLabsModules/rebloom.git\n\ncd\n rebloom\nmake\n\n\n# Assuming you have a redis build from the unstable branch:\n\n/path/to/redis-server --loadmodule ./rebloom.so\n\n\n\n\n\nAdding new items to the filter\n\n\n\n\nA new filter is created for you if it does not yet exist\n\n\n\n\n127.0.0.1:6379\n BF.ADD newFilter foo\n(integer) 1\n\n\n\n\n\nChecking if an item exists in the filter\n\n\n127.0.0.1:6379\n BF.EXISTS newFilter foo\n(integer) 1\n\n\n\n\n\n127.0.0.1:6379\n BF.EXISTS newFilter notpresent\n(integer) 0\n\n\n\n\n\nAdding and checking multiple items\n\n\n127.0.0.1:6379\n BF.MADD myFilter foo bar baz\n1) (integer) 1\n2) (integer) 1\n3) (integer) 1\n\n\n\n\n\n127.0.0.1:6379\n BF.MEXISTS myFilter foo nonexist bar\n1) (integer) 1\n2) (integer) 0\n3) (integer) 1\n\n\n\n\n\nCreating a new filter with custom properties\n\n\n127.0.0.1:6379\n BF.RESERVE customFilter 0.0001 600000\nOK\n\n\n\n\n\n127.0.0.1:6379\n BF.MADD customFilter foo bar baz", 
+            "text": "Quick Start Guide for ReBloom\n\n\nBuilding and running\n\n\ngit clone https://github.com/RedisLabsModules/rebloom.git\n\ncd\n rebloom\nmake\n\n\n# Assuming you have a redis build from the unstable branch:\n\n/path/to/redis-server --loadmodule ./rebloom.so\n\n\n\n\n\nAdding new items to the filter\n\n\n\n\nA new filter is created for you if it does not yet exist\n\n\n\n\n127.0.0.1:6379\n BF.ADD newFilter foo\n(integer) 1\n\n\n\n\n\nChecking if an item exists in the filter\n\n\n127.0.0.1:6379\n BF.EXISTS newFilter foo\n(integer) 1\n\n\n\n\n\n127.0.0.1:6379\n BF.EXISTS newFilter notpresent\n(integer) 0\n\n\n\n\n\nAdding and checking multiple items\n\n\n127.0.0.1:6379\n BF.MADD myFilter foo bar baz\n1) (integer) 1\n2) (integer) 1\n3) (integer) 1\n\n\n\n\n\n127.0.0.1:6379\n BF.MEXISTS myFilter foo nonexist bar\n1) (integer) 1\n2) (integer) 0\n3) (integer) 1\n\n\n\n\n\nCreating a new filter with custom properties\n\n\n127.0.0.1:6379\n BF.RESERVE customFilter 0.0001 600000\nOK\n\n\n\n\n\n127.0.0.1:6379\n BF.MADD customFilter foo bar baz", 
             "title": "Quick Start"
         }, 
         {
             "location": "/Quick_Start/#quick-start-guide-for-rebloom", 
             "text": "", 
-            "title": "Quick Start Guide for ReBloom:"
+            "title": "Quick Start Guide for ReBloom"
         }, 
         {
             "location": "/Quick_Start/#building-and-running", 
             "text": "git clone https://github.com/RedisLabsModules/rebloom.git cd  rebloom\nmake # Assuming you have a redis build from the unstable branch: \n/path/to/redis-server --loadmodule ./rebloom.so", 
-            "title": "Building and running:"
+            "title": "Building and running"
         }, 
         {
             "location": "/Quick_Start/#adding-new-items-to-the-filter", 
@@ -57,7 +57,7 @@
         }, 
         {
             "location": "/Commands/", 
-            "text": "ReBloom Full Command Documentation\n\n\nBF.RESERVE\n\n\nFormat:\n\n\nBF.RESERVE {key} {error_rate} {size}\n\n\n\n\n\nDescription:\n\n\nCreates an empty Bloom Filter with a given error ratio and initial capacity.\nThis command is useful if you intend to add many items to a Bloom Filter, \notherwise you can just use \nBF.ADD\n to add items. It will also create one for\nyou.\n\n\nThe initial size and error rate will dictate the performance and memory usage\nof the filter. In general, the higher the lower the error ratio (i.e. the lower\nthe tolerance for false positives) the greater the space consumption per\nfilter entry.\n\n\nParameters:\n\n\n\n\nkey\n: The key under which the filter is to be found\n\n\nerror_rate\n: The percentage of expected false positives to be tolerated.\n    The greater this number, the greater the memory consumption per item\n    and the more CPU usage per operation.\n\n\nsize\n: The number of entries you intend to to add to the filter.\n    Performance will begin to degrade after adding more items than this\n    number. The actual degradation will depend on how far the limit has\n    been exceeded. Performance will degrade linearly as the number of entries\n    grow exponentially.\n\n\n\n\nComplexity\n\n\nO(1)\n\n\nReturns\n\n\nOK on success, error otherwise.\n\n\nBF.ADD\n\n\nFormat\n\n\nBF.ADD {key} {item}\n\n\n\n\n\nDescription\n\n\nAdds an item to the Bloom Filter, creating the filter if it does not yet exist.\n\n\nParameters\n\n\n\n\nkey\n: The name of the filter\n\n\nitem\n: The item to add\n\n\n\n\nComplexity\n\n\nO(log N).\n\n\nReturns\n\n\n1 if the item was newly inserted, or 0 if it may have existed previously.\n\n\nBF.MADD\n\n\nFormat\n\n\n{key} {item} [item...]\n\n\n\n\n\nDescription\n\n\nAdds one or more items to the Bloom Filter, creating the filter if it does not yet exist.\nThis command operates identally to \nBF.ADD\n except it allows multiple inputs and returns\nmultiple values.\n\n\nParameters\n\n\n\n\nkey\n: The name of the filter\n\n\nitems\n: One or more items to add\n\n\n\n\nComplexity\n\n\nO(log N).\n\n\nReturns\n\n\nAn array of booleans (integers). Each element is either true or false depending\non whether the corresponding input element was newly added to the filter or may\nhave previously existed.\n\n\nBF.EXISTS\n\n\nFormat\n\n\nBF.EXISTS {key} {item}\n\n\n\n\n\nDescription\n\n\nCheck if an item may exists, or certainly does not exist in the Bloom Filter.\n\n\nParameters\n\n\n\n\nkey\n: the name of the filter\n\n\nitem\n: the item to check for\n\n\n\n\nComplexity\n\n\nO(log N).\n\n\nReturns\n\n\n0 If the item certainly does not exist, 1 if the item may exist.\n\n\nBF.MEXISTS\n\n\nFormat\n\n\nBF.MEXISTS {key} {item} [item...]\n\n\n\n\n\nDescription\n\n\nCheck if one or more items exist, or certainly do not exist in the filter\n\n\nParameters\n\n\n\n\nkey\n: name of the filter\n\n\nitems\n: one or more items to check\n\n\n\n\nComplexity\n\n\nO(log N).\n\n\nReturns\n\n\nAn array of boolean values (actually integers). A true value means the\ncorresponding item may exist in the filter, while a false value means it does not.", 
+            "text": "ReBloom Full Command Documentation\n\n\nBF.RESERVE\n\n\nFormat:\n\n\nBF.RESERVE {key} {error_rate} {size}\n\n\n\n\n\nDescription:\n\n\nCreates an empty Bloom Filter with a given desired error ratio and initial capacity.\nThis command is useful if you intend to add many items to a Bloom Filter, \notherwise you can just use \nBF.ADD\n to add items. It will also create a Bloom Filter for\nyou if one doesn't already exist.\n\n\nThe initial size and error rate will dictate the performance and memory usage\nof the filter. In general, the smaller the error rate (i.e. the lower\nthe tolerance for false positives) the greater the space consumption per\nfilter entry.\n\n\nParameters:\n\n\n\n\nkey\n: The key under which the filter is to be found\n\n\nerror_rate\n: The desired probability for false positives. This should\n    be a decimal value between 0 and 1. For example, for a desired false\n    positive rate of 0.1% (1 in 1000), error_rate should be set to 0.001.\n    The closer this number is to zero, the greater the memory consumption per\n    item and the more CPU usage per operation.\n\n\nsize\n: The number of entries you intend to add to the filter.\n    Performance will begin to degrade after adding more items than this\n    number. The actual degradation will depend on how far the limit has\n    been exceeded. Performance will degrade linearly as the number of entries\n    grow exponentially.\n\n\n\n\nComplexity\n\n\nO(1)\n\n\nReturns\n\n\nOK on success, error otherwise.\n\n\nBF.ADD\n\n\nFormat\n\n\nBF.ADD {key} {item}\n\n\n\n\n\nDescription\n\n\nAdds an item to the Bloom Filter, creating the filter if it does not yet exist.\n\n\nParameters\n\n\n\n\nkey\n: The name of the filter\n\n\nitem\n: The item to add\n\n\n\n\nComplexity\n\n\nO(log N).\n\n\nReturns\n\n\n\"1\" if the item was newly inserted, or \"0\" if it may have existed previously.\n\n\nBF.MADD\n\n\nFormat\n\n\n{key} {item} [item...]\n\n\n\n\n\nDescription\n\n\nAdds one or more items to the Bloom Filter, creating the filter if it does not yet exist.\nThis command operates identically to \nBF.ADD\n except it allows multiple inputs and returns\nmultiple values.\n\n\nParameters\n\n\n\n\nkey\n: The name of the filter\n\n\nitems\n: One or more items to add\n\n\n\n\nComplexity\n\n\nO(log N).\n\n\nReturns\n\n\nAn array of booleans (integers). Each element is either true or false depending\non whether the corresponding input element was newly added to the filter or may\nhave previously existed.\n\n\nBF.EXISTS\n\n\nFormat\n\n\nBF.EXISTS {key} {item}\n\n\n\n\n\nDescription\n\n\nDetermines whether an item may exist in the Bloom Filter or not.\n\n\nParameters\n\n\n\n\nkey\n: the name of the filter\n\n\nitem\n: the item to check for\n\n\n\n\nComplexity\n\n\nO(log N).\n\n\nReturns\n\n\n\"0\" if the item certainly does not exist, \"1\" if the item may exist.\n\n\nBF.MEXISTS\n\n\nFormat\n\n\nBF.MEXISTS {key} {item} [item...]\n\n\n\n\n\nDescription\n\n\nDetermines if one or more items may exist in the filter or not.\n\n\nParameters\n\n\n\n\nkey\n: name of the filter\n\n\nitems\n: one or more items to check\n\n\n\n\nComplexity\n\n\nO(log N).\n\n\nReturns\n\n\nAn array of boolean values (actually integers). A true value means the\ncorresponding item may exist in the filter, while a false value means it does not.\n\n\nBF.SCANDUMP\n\n\nFormat\n\n\nBF.SCANDUMP {key} {iter}\n\n\n\n\n\nDescription\n\n\nBegins an incremental save of the bloom filter. This is useful for large bloom\nfilters which cannot fit into the normal \nSAVE\n and \nRESTORE\n model.\n\n\nThe first time this command is called, the value of \niter\n should be 0. This\ncommand will return successive \n(iter, data)\n pairs until \n(0, NULL)\n to\nindicate completion.\n\n\nA demonstration in python-flavored pseudocode:\n\n\nchunks = []\niter = 0\nwhile True:\n    iter, data = BF.SCANDUMP(key, iter)\n    if iter == 0:\n        break\n    else:\n        chunks.append([iter, data])\n\n# Load it back\nfor chunk in chunks:\n    iter, data = chunk\n    BF.LOADCHUNK(key, iter, data)\n\n\n\n\n\nParameters\n\n\n\n\nkey\n Name of the filter\n\n\niter\n Iterator value. This is either 0, or the iterator from a previous\n    invocation of this command\n\n\n\n\nComplexity\n\n\nO(log N)\n\n\nReturns\n\n\nAn array of \nIterator\n and \nData\n. The Iterator is passed as input to the next\ninvocation of \nSCANDUMP\n. If \nIterator\n is 0, then it means iteration has\ncompleted.\n\n\nThe iterator-data pair should also be passed to \nLOADCHUNK\n when restoring\nthe filter.\n\n\nBF.LOADCHUNK\n\n\nFormat\n\n\nBF.LOADCHUNK {key} {iter} {data}\n\n\n\n\n\nDescription\n\n\nRestores a filter previously saved using \nSCANDUMP\n. See the \nSCANDUMP\n command\nfor example usage.\n\n\nThis command will overwrite any bloom filter stored under \nkey\n. Ensure that\nthe bloom filter will not be modified between invocations.\n\n\nParameters\n\n\n\n\nkey\n Name of the key to restore\n\n\niter\n Iterator value associated with \ndata\n (returned by \nSCANDUMP\n)\n\n\ndata\n Current data chunk (returned by \nSCANDUMP\n)\n\n\n\n\nComplexity O\n\n\nO(log N)\n\n\nReturns\n\n\nOK\n on success, or an error on failure.", 
             "title": "Commands"
         }, 
         {
@@ -77,12 +77,12 @@
         }, 
         {
             "location": "/Commands/#description", 
-            "text": "Creates an empty Bloom Filter with a given error ratio and initial capacity.\nThis command is useful if you intend to add many items to a Bloom Filter, \notherwise you can just use  BF.ADD  to add items. It will also create one for\nyou.  The initial size and error rate will dictate the performance and memory usage\nof the filter. In general, the higher the lower the error ratio (i.e. the lower\nthe tolerance for false positives) the greater the space consumption per\nfilter entry.", 
+            "text": "Creates an empty Bloom Filter with a given desired error ratio and initial capacity.\nThis command is useful if you intend to add many items to a Bloom Filter, \notherwise you can just use  BF.ADD  to add items. It will also create a Bloom Filter for\nyou if one doesn't already exist.  The initial size and error rate will dictate the performance and memory usage\nof the filter. In general, the smaller the error rate (i.e. the lower\nthe tolerance for false positives) the greater the space consumption per\nfilter entry.", 
             "title": "Description:"
         }, 
         {
             "location": "/Commands/#parameters", 
-            "text": "key : The key under which the filter is to be found  error_rate : The percentage of expected false positives to be tolerated.\n    The greater this number, the greater the memory consumption per item\n    and the more CPU usage per operation.  size : The number of entries you intend to to add to the filter.\n    Performance will begin to degrade after adding more items than this\n    number. The actual degradation will depend on how far the limit has\n    been exceeded. Performance will degrade linearly as the number of entries\n    grow exponentially.", 
+            "text": "key : The key under which the filter is to be found  error_rate : The desired probability for false positives. This should\n    be a decimal value between 0 and 1. For example, for a desired false\n    positive rate of 0.1% (1 in 1000), error_rate should be set to 0.001.\n    The closer this number is to zero, the greater the memory consumption per\n    item and the more CPU usage per operation.  size : The number of entries you intend to add to the filter.\n    Performance will begin to degrade after adding more items than this\n    number. The actual degradation will depend on how far the limit has\n    been exceeded. Performance will degrade linearly as the number of entries\n    grow exponentially.", 
             "title": "Parameters:"
         }, 
         {
@@ -122,7 +122,7 @@
         }, 
         {
             "location": "/Commands/#returns_1", 
-            "text": "1 if the item was newly inserted, or 0 if it may have existed previously.", 
+            "text": "\"1\" if the item was newly inserted, or \"0\" if it may have existed previously.", 
             "title": "Returns"
         }, 
         {
@@ -137,7 +137,7 @@
         }, 
         {
             "location": "/Commands/#description_2", 
-            "text": "Adds one or more items to the Bloom Filter, creating the filter if it does not yet exist.\nThis command operates identally to  BF.ADD  except it allows multiple inputs and returns\nmultiple values.", 
+            "text": "Adds one or more items to the Bloom Filter, creating the filter if it does not yet exist.\nThis command operates identically to  BF.ADD  except it allows multiple inputs and returns\nmultiple values.", 
             "title": "Description"
         }, 
         {
@@ -167,7 +167,7 @@
         }, 
         {
             "location": "/Commands/#description_3", 
-            "text": "Check if an item may exists, or certainly does not exist in the Bloom Filter.", 
+            "text": "Determines whether an item may exist in the Bloom Filter or not.", 
             "title": "Description"
         }, 
         {
@@ -182,7 +182,7 @@
         }, 
         {
             "location": "/Commands/#returns_3", 
-            "text": "0 If the item certainly does not exist, 1 if the item may exist.", 
+            "text": "\"0\" if the item certainly does not exist, \"1\" if the item may exist.", 
             "title": "Returns"
         }, 
         {
@@ -197,7 +197,7 @@
         }, 
         {
             "location": "/Commands/#description_4", 
-            "text": "Check if one or more items exist, or certainly do not exist in the filter", 
+            "text": "Determines if one or more items may exist in the filter or not.", 
             "title": "Description"
         }, 
         {
@@ -213,6 +213,66 @@
         {
             "location": "/Commands/#returns_4", 
             "text": "An array of boolean values (actually integers). A true value means the\ncorresponding item may exist in the filter, while a false value means it does not.", 
+            "title": "Returns"
+        }, 
+        {
+            "location": "/Commands/#bfscandump", 
+            "text": "", 
+            "title": "BF.SCANDUMP"
+        }, 
+        {
+            "location": "/Commands/#format_5", 
+            "text": "BF.SCANDUMP {key} {iter}", 
+            "title": "Format"
+        }, 
+        {
+            "location": "/Commands/#description_5", 
+            "text": "Begins an incremental save of the bloom filter. This is useful for large bloom\nfilters which cannot fit into the normal  SAVE  and  RESTORE  model.  The first time this command is called, the value of  iter  should be 0. This\ncommand will return successive  (iter, data)  pairs until  (0, NULL)  to\nindicate completion.  A demonstration in python-flavored pseudocode:  chunks = []\niter = 0\nwhile True:\n    iter, data = BF.SCANDUMP(key, iter)\n    if iter == 0:\n        break\n    else:\n        chunks.append([iter, data])\n\n# Load it back\nfor chunk in chunks:\n    iter, data = chunk\n    BF.LOADCHUNK(key, iter, data)", 
+            "title": "Description"
+        }, 
+        {
+            "location": "/Commands/#parameters_5", 
+            "text": "key  Name of the filter  iter  Iterator value. This is either 0, or the iterator from a previous\n    invocation of this command", 
+            "title": "Parameters"
+        }, 
+        {
+            "location": "/Commands/#complexity_5", 
+            "text": "O(log N)", 
+            "title": "Complexity"
+        }, 
+        {
+            "location": "/Commands/#returns_5", 
+            "text": "An array of  Iterator  and  Data . The Iterator is passed as input to the next\ninvocation of  SCANDUMP . If  Iterator  is 0, then it means iteration has\ncompleted.  The iterator-data pair should also be passed to  LOADCHUNK  when restoring\nthe filter.", 
+            "title": "Returns"
+        }, 
+        {
+            "location": "/Commands/#bfloadchunk", 
+            "text": "", 
+            "title": "BF.LOADCHUNK"
+        }, 
+        {
+            "location": "/Commands/#format_6", 
+            "text": "BF.LOADCHUNK {key} {iter} {data}", 
+            "title": "Format"
+        }, 
+        {
+            "location": "/Commands/#description_6", 
+            "text": "Restores a filter previously saved using  SCANDUMP . See the  SCANDUMP  command\nfor example usage.  This command will overwrite any bloom filter stored under  key . Ensure that\nthe bloom filter will not be modified between invocations.", 
+            "title": "Description"
+        }, 
+        {
+            "location": "/Commands/#parameters_6", 
+            "text": "key  Name of the key to restore  iter  Iterator value associated with  data  (returned by  SCANDUMP )  data  Current data chunk (returned by  SCANDUMP )", 
+            "title": "Parameters"
+        }, 
+        {
+            "location": "/Commands/#complexity-o", 
+            "text": "O(log N)", 
+            "title": "Complexity O"
+        }, 
+        {
+            "location": "/Commands/#returns_6", 
+            "text": "OK  on success, or an error on failure.", 
             "title": "Returns"
         }
     ]

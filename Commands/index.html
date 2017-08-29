@@ -472,6 +472,102 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#bfscandump" title="BF.SCANDUMP" class="md-nav__link">
+    BF.SCANDUMP
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#format_5" title="Format" class="md-nav__link">
+    Format
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#description_5" title="Description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parameters_5" title="Parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complexity_5" title="Complexity" class="md-nav__link">
+    Complexity
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#returns_5" title="Returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bfloadchunk" title="BF.LOADCHUNK" class="md-nav__link">
+    BF.LOADCHUNK
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#format_6" title="Format" class="md-nav__link">
+    Format
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#description_6" title="Description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parameters_6" title="Parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complexity-o" title="Complexity O" class="md-nav__link">
+    Complexity O
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#returns_6" title="Returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
       
       
     </ul>
@@ -753,6 +849,102 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#bfscandump" title="BF.SCANDUMP" class="md-nav__link">
+    BF.SCANDUMP
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#format_5" title="Format" class="md-nav__link">
+    Format
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#description_5" title="Description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parameters_5" title="Parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complexity_5" title="Complexity" class="md-nav__link">
+    Complexity
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#returns_5" title="Returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bfloadchunk" title="BF.LOADCHUNK" class="md-nav__link">
+    BF.LOADCHUNK
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#format_6" title="Format" class="md-nav__link">
+    Format
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#description_6" title="Description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parameters_6" title="Parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complexity-o" title="Complexity O" class="md-nav__link">
+    Complexity O
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#returns_6" title="Returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
       
       
     </ul>
@@ -877,6 +1069,70 @@ have previously existed.</p>
 <h3 id="returns_4">Returns<a class="headerlink" href="#returns_4" title="Permanent link">&para;</a></h3>
 <p>An array of boolean values (actually integers). A true value means the
 corresponding item may exist in the filter, while a false value means it does not.</p>
+<h2 id="bfscandump">BF.SCANDUMP<a class="headerlink" href="#bfscandump" title="Permanent link">&para;</a></h2>
+<h3 id="format_5">Format<a class="headerlink" href="#format_5" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span>BF.SCANDUMP {key} {iter}
+</pre></div>
+
+
+<h3 id="description_5">Description<a class="headerlink" href="#description_5" title="Permanent link">&para;</a></h3>
+<p>Begins an incremental save of the bloom filter. This is useful for large bloom
+filters which cannot fit into the normal <code>SAVE</code> and <code>RESTORE</code> model.</p>
+<p>The first time this command is called, the value of <code>iter</code> should be 0. This
+command will return successive <code>(iter, data)</code> pairs until <code>(0, NULL)</code> to
+indicate completion.</p>
+<p>A demonstration in python-flavored pseudocode:</p>
+<div class="codehilite"><pre><span></span>chunks = []
+iter = 0
+while True:
+    iter, data = BF.SCANDUMP(key, iter)
+    if iter == 0:
+        break
+    else:
+        chunks.append([iter, data])
+
+# Load it back
+for chunk in chunks:
+    iter, data = chunk
+    BF.LOADCHUNK(key, iter, data)
+</pre></div>
+
+
+<h3 id="parameters_5">Parameters<a class="headerlink" href="#parameters_5" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>key</strong> Name of the filter</li>
+<li><strong>iter</strong> Iterator value. This is either 0, or the iterator from a previous
+    invocation of this command</li>
+</ul>
+<h3 id="complexity_5">Complexity<a class="headerlink" href="#complexity_5" title="Permanent link">&para;</a></h3>
+<p>O(log N)</p>
+<h3 id="returns_5">Returns<a class="headerlink" href="#returns_5" title="Permanent link">&para;</a></h3>
+<p>An array of <em>Iterator</em> and <em>Data</em>. The Iterator is passed as input to the next
+invocation of <code>SCANDUMP</code>. If <em>Iterator</em> is 0, then it means iteration has
+completed.</p>
+<p>The iterator-data pair should also be passed to <code>LOADCHUNK</code> when restoring
+the filter.</p>
+<h2 id="bfloadchunk">BF.LOADCHUNK<a class="headerlink" href="#bfloadchunk" title="Permanent link">&para;</a></h2>
+<h3 id="format_6">Format<a class="headerlink" href="#format_6" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span>BF.LOADCHUNK {key} {iter} {data}
+</pre></div>
+
+
+<h3 id="description_6">Description<a class="headerlink" href="#description_6" title="Permanent link">&para;</a></h3>
+<p>Restores a filter previously saved using <code>SCANDUMP</code>. See the <code>SCANDUMP</code> command
+for example usage.</p>
+<p>This command will overwrite any bloom filter stored under <code>key</code>. Ensure that
+the bloom filter will not be modified between invocations.</p>
+<h3 id="parameters_6">Parameters<a class="headerlink" href="#parameters_6" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>key</strong> Name of the key to restore</li>
+<li><strong>iter</strong> Iterator value associated with <code>data</code> (returned by <code>SCANDUMP</code>)</li>
+<li><strong>data</strong> Current data chunk (returned by <code>SCANDUMP</code>)</li>
+</ul>
+<h3 id="complexity-o">Complexity O<a class="headerlink" href="#complexity-o" title="Permanent link">&para;</a></h3>
+<p>O(log N)</p>
+<h3 id="returns_6">Returns<a class="headerlink" href="#returns_6" title="Permanent link">&para;</a></h3>
+<p><code>OK</code> on success, or an error on failure.</p>
                 
                   
                 

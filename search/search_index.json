@@ -2,13 +2,38 @@
     "docs": [
         {
             "location": "/", 
-            "text": "ReBloom - Bloom Filter Module for Redis\n\n\nThis provides a scalable bloom filter as a Redis data type. Bloom filters\nare probabilistic data structures that do a very good job at quickly\ndetermining if something is contained within a set.\n\n\nBuilding\n\n\nIn order to use this module, build it using \nmake\n and load it into Redis.\n\n\nModule Options\n\n\nYou can adjust the default error ratio and the initial filter size using\nthe \nERROR_RATE\n and \nINITIAL_SIZE\n options respectively when loading the\nmodule, e.g.\n\n\n$ redis-server --loadmodule /path/to/rebloom.so INITIAL_SIZE \n400\n ERROR_RATE \n0\n.004\n\n\n\n\n\nThe default error rate is \n0.01\n and the default initial capacity is \n100\n.", 
+            "text": "ReBloom - Bloom Filter Module for Redis\n\n\nThis provides a scalable bloom filter as a Redis data type. Bloom filters\nare probabilistic data structures that do a very good job at quickly\ndetermining if something is contained within a set.\n\n\nQuick Start Guide\n\n\n\n\nLaunch ReBloom with Docker\n\n\nUse Rebloom with redis-cli\n\n\n\n\nNote: You can also \nbuild and load the module\n yourself.\n\n\nYou can find a command reference in \nCommands.md\n\n\nLaunch ReBloom with Docker\n\n\ndocker run -p 6379:6379 --name redis-rebloom redislabs/rebloom:latest\n\n\n\n\n\nUse ReBloom with \nredis-cli\n\n\ndocker exec -it redis-rebloom bash\n\n# redis-cli\n# 127.0.0.1:6379\n \n\n\n\n\n\nStart a new bloom filter by adding a new item\n\n\n# 127.0.0.1:6379\n BF.ADD newFilter foo\n(integer) 1\n\n\n\n\n\nChecking if an item exists in the filter\n\n\n# 127.0.0.1:6379\n BF.EXISTS newFilter foo\n(integer) 1\n\n\n\n\n\nBuilding and Loading ReBloom\n\n\nIn order to use this module, build it using \nmake\n and load it into Redis.\n\n\nLoading\n\n\nInvoking redis with the module loaded\n\n\n$ redis-server --loadmodule /path/to/rebloom.so\n\n\n\n\n\nYou can find a command reference in \ndocs/Commands.md\n\n\nBuilding\n\n\nIn order to use this module, build it using \nmake\n and load it into Redis.\n\n\nModule Options\n\n\nYou can adjust the default error ratio and the initial filter size using\nthe \nERROR_RATE\n and \nINITIAL_SIZE\n options respectively when loading the\nmodule, e.g.\n\n\n$ redis-server --loadmodule /path/to/rebloom.so INITIAL_SIZE \n400\n ERROR_RATE \n0\n.004\n\n\n\n\n\nThe default error rate is \n0.01\n and the default initial capacity is \n100\n.", 
             "title": "ReBloom"
         }, 
         {
             "location": "/#rebloom-bloom-filter-module-for-redis", 
             "text": "This provides a scalable bloom filter as a Redis data type. Bloom filters\nare probabilistic data structures that do a very good job at quickly\ndetermining if something is contained within a set.", 
             "title": "ReBloom - Bloom Filter Module for Redis"
+        }, 
+        {
+            "location": "/#quick-start-guide", 
+            "text": "Launch ReBloom with Docker  Use Rebloom with redis-cli   Note: You can also  build and load the module  yourself.  You can find a command reference in  Commands.md", 
+            "title": "Quick Start Guide"
+        }, 
+        {
+            "location": "/#launch-rebloom-with-docker", 
+            "text": "docker run -p 6379:6379 --name redis-rebloom redislabs/rebloom:latest", 
+            "title": "Launch ReBloom with Docker"
+        }, 
+        {
+            "location": "/#use-rebloom-with-redis-cli", 
+            "text": "docker exec -it redis-rebloom bash\n\n# redis-cli\n# 127.0.0.1:6379    Start a new bloom filter by adding a new item  # 127.0.0.1:6379  BF.ADD newFilter foo\n(integer) 1  Checking if an item exists in the filter  # 127.0.0.1:6379  BF.EXISTS newFilter foo\n(integer) 1", 
+            "title": "Use ReBloom with redis-cli"
+        }, 
+        {
+            "location": "/#building-and-loading-rebloom", 
+            "text": "In order to use this module, build it using  make  and load it into Redis.", 
+            "title": "Building and Loading ReBloom"
+        }, 
+        {
+            "location": "/#loading", 
+            "text": "Invoking redis with the module loaded  $ redis-server --loadmodule /path/to/rebloom.so  You can find a command reference in  docs/Commands.md", 
+            "title": "Loading"
         }, 
         {
             "location": "/#building", 

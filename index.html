@@ -289,6 +289,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#bloom-vs-cuckoo" title="Bloom vs. Cuckoo" class="md-nav__link">
+    Bloom vs. Cuckoo
+  </a>
+  
+</li>
+      
       
       
     </ul>
@@ -316,8 +323,20 @@
 
 
   <li class="md-nav__item">
-    <a href="Commands/" title="Commands" class="md-nav__link">
-      Commands
+    <a href="Bloom_Commands/" title="Bloom Commands" class="md-nav__link">
+      Bloom Commands
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="Cuckoo_Commands/" title="Cuckoo Filter Commands" class="md-nav__link">
+      Cuckoo Filter Commands
     </a>
   </li>
 
@@ -421,6 +440,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#bloom-vs-cuckoo" title="Bloom vs. Cuckoo" class="md-nav__link">
+    Bloom vs. Cuckoo
+  </a>
+  
+</li>
+      
       
       
     </ul>
@@ -438,17 +464,18 @@
                   <a href="https://github.com/RedisLabsModules/rebloom/edit/master/docs/index.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="rebloom-bloom-filter-module-for-redis">ReBloom - Bloom Filter Module for Redis<a class="headerlink" href="#rebloom-bloom-filter-module-for-redis" title="Permanent link">&para;</a></h1>
-<p>This provides a scalable bloom filter as a Redis data type. Bloom filters
-are probabilistic data structures that do a very good job at quickly
-determining if something is contained within a set.</p>
+                <h1 id="rebloom-probablistic-datatypes-module-for-redis">ReBloom - Probablistic Datatypes Module for Redis<a class="headerlink" href="#rebloom-probablistic-datatypes-module-for-redis" title="Permanent link">&para;</a></h1>
+<p>This module provides two datatypes, a Scalable Bloom Filter and a Cuckoo Filter.
+These datatypes are used to determine (with a given degree of certainty) whether
+an item is present (or absent) from a collection.</p>
 <h2 id="quick-start-guide">Quick Start Guide<a class="headerlink" href="#quick-start-guide" title="Permanent link">&para;</a></h2>
 <ol>
 <li><a href="#launch-rebloom-with-docker">Launch ReBloom with Docker</a></li>
 <li><a href="#use-rebloom-with-redis-cli">Use Rebloom with redis-cli</a></li>
 </ol>
 <p>Note: You can also <a href="#building-and-loading-rebloom">build and load the module</a> yourself.</p>
-<p>You can find a command reference in <a href="Commands/">Commands.md</a></p>
+<p>You can find a command reference in <a href="Bloom_Commands/">Bloom Commands.md</a> and
+<a href="Cuckoo_Commands/">Cuckoo Commands</a></p>
 <h3 id="launch-rebloom-with-docker">Launch ReBloom with Docker<a class="headerlink" href="#launch-rebloom-with-docker" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span>docker run -p 6379:6379 --name redis-rebloom redislabs/rebloom:latest
 </pre></div>
@@ -482,18 +509,23 @@ determining if something is contained within a set.</p>
 </pre></div>
 
 
-<p>You can find a command reference in <a href="docs/Commands.md">docs/Commands.md</a></p>
+<p>You can find a command reference in <a href="Bloom_Commands/">Bloom_Commands.md</a>
+and <a href="Cuckoo_Commands/">Cuckoo_Commands.md</a></p>
 <h2 id="building">Building<a class="headerlink" href="#building" title="Permanent link">&para;</a></h2>
 <p>In order to use this module, build it using <code>make</code> and load it into Redis.</p>
 <h3 id="module-options">Module Options<a class="headerlink" href="#module-options" title="Permanent link">&para;</a></h3>
-<p>You can adjust the default error ratio and the initial filter size using
-the <code>ERROR_RATE</code> and <code>INITIAL_SIZE</code> options respectively when loading the
+<p>You can adjust the default error ratio and the initial filter size (for bloom filters)
+using the <code>ERROR_RATE</code> and <code>INITIAL_SIZE</code> options respectively when loading the
 module, e.g.</p>
 <div class="codehilite"><pre><span></span>$ redis-server --loadmodule /path/to/rebloom.so INITIAL_SIZE <span class="m">400</span> ERROR_RATE <span class="m">0</span>.004
 </pre></div>
 
 
 <p>The default error rate is <code>0.01</code> and the default initial capacity is <code>100</code>.</p>
+<h2 id="bloom-vs-cuckoo">Bloom vs. Cuckoo<a class="headerlink" href="#bloom-vs-cuckoo" title="Permanent link">&para;</a></h2>
+<p>Bloom Filters typically exhibit better performance and scalability when inserting
+items (so if you're often adding items to your dataset then Bloom may be ideal),
+whereas Cuckoo Filters are quicker on check operations and also allow deletions.</p>
                 
                   
                 

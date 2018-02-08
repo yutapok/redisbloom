@@ -241,34 +241,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#adding-new-items-to-the-filter" title="Adding new items to the filter" class="md-nav__link">
-    Adding new items to the filter
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#checking-if-an-item-exists-in-the-filter" title="Checking if an item exists in the filter" class="md-nav__link">
-    Checking if an item exists in the filter
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#adding-and-checking-multiple-items" title="Adding and checking multiple items" class="md-nav__link">
-    Adding and checking multiple items
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#creating-a-new-filter-with-custom-properties" title="Creating a new filter with custom properties" class="md-nav__link">
-    Creating a new filter with custom properties
-  </a>
-  
-</li>
-      
       
       
     </ul>
@@ -284,8 +256,20 @@
 
 
   <li class="md-nav__item">
-    <a href="../Commands/" title="Commands" class="md-nav__link">
-      Commands
+    <a href="../Bloom_Commands/" title="Bloom Commands" class="md-nav__link">
+      Bloom Commands
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../Cuckoo_Commands/" title="Cuckoo Filter Commands" class="md-nav__link">
+      Cuckoo Filter Commands
     </a>
   </li>
 
@@ -329,34 +313,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#adding-new-items-to-the-filter" title="Adding new items to the filter" class="md-nav__link">
-    Adding new items to the filter
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#checking-if-an-item-exists-in-the-filter" title="Checking if an item exists in the filter" class="md-nav__link">
-    Checking if an item exists in the filter
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#adding-and-checking-multiple-items" title="Adding and checking multiple items" class="md-nav__link">
-    Adding and checking multiple items
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#creating-a-new-filter-with-custom-properties" title="Creating a new filter with custom properties" class="md-nav__link">
-    Creating a new filter with custom properties
-  </a>
-  
-</li>
-      
       
       
     </ul>
@@ -375,6 +331,9 @@
                 
                 
                 <h1 id="quick-start-guide-for-rebloom">Quick Start Guide for ReBloom<a class="headerlink" href="#quick-start-guide-for-rebloom" title="Permanent link">&para;</a></h1>
+<p>Bloom filters and cuckoo filters work fairly similarly at the API level; they
+both allow you to add items to a set (in effect making sure the item has been
+'seen' by the set).</p>
 <h2 id="building-and-running">Building and running<a class="headerlink" href="#building-and-running" title="Permanent link">&para;</a></h2>
 <div class="codehilite"><pre><span></span>git clone https://github.com/RedisLabsModules/rebloom.git
 <span class="nb">cd</span> rebloom
@@ -385,7 +344,8 @@ make
 </pre></div>
 
 
-<h2 id="adding-new-items-to-the-filter">Adding new items to the filter<a class="headerlink" href="#adding-new-items-to-the-filter" title="Permanent link">&para;</a></h2>
+<h1 id="bloom-filters">Bloom Filters<a class="headerlink" href="#bloom-filters" title="Permanent link">&para;</a></h1>
+<h2 id="bloom-adding-new-items-to-the-filter">Bloom: Adding new items to the filter<a class="headerlink" href="#bloom-adding-new-items-to-the-filter" title="Permanent link">&para;</a></h2>
 <blockquote>
 <p>A new filter is created for you if it does not yet exist</p>
 </blockquote>
@@ -394,7 +354,7 @@ make
 </pre></div>
 
 
-<h2 id="checking-if-an-item-exists-in-the-filter">Checking if an item exists in the filter<a class="headerlink" href="#checking-if-an-item-exists-in-the-filter" title="Permanent link">&para;</a></h2>
+<h2 id="bloom-checking-if-an-item-exists-in-the-filter">Bloom: Checking if an item exists in the filter<a class="headerlink" href="#bloom-checking-if-an-item-exists-in-the-filter" title="Permanent link">&para;</a></h2>
 <div class="codehilite"><pre><span></span>127.0.0.1:6379&gt; BF.EXISTS newFilter foo
 (integer) 1
 </pre></div>
@@ -405,7 +365,7 @@ make
 </pre></div>
 
 
-<h2 id="adding-and-checking-multiple-items">Adding and checking multiple items<a class="headerlink" href="#adding-and-checking-multiple-items" title="Permanent link">&para;</a></h2>
+<h2 id="bloom-adding-and-checking-multiple-items">Bloom: Adding and checking multiple items<a class="headerlink" href="#bloom-adding-and-checking-multiple-items" title="Permanent link">&para;</a></h2>
 <div class="codehilite"><pre><span></span>127.0.0.1:6379&gt; BF.MADD myFilter foo bar baz
 1) (integer) 1
 2) (integer) 1
@@ -420,13 +380,41 @@ make
 </pre></div>
 
 
-<h2 id="creating-a-new-filter-with-custom-properties">Creating a new filter with custom properties<a class="headerlink" href="#creating-a-new-filter-with-custom-properties" title="Permanent link">&para;</a></h2>
+<h2 id="bloom-creating-a-new-filter-with-custom-properties">Bloom: Creating a new filter with custom properties<a class="headerlink" href="#bloom-creating-a-new-filter-with-custom-properties" title="Permanent link">&para;</a></h2>
 <div class="codehilite"><pre><span></span>127.0.0.1:6379&gt; BF.RESERVE customFilter 0.0001 600000
 OK
 </pre></div>
 
 
 <div class="codehilite"><pre><span></span>127.0.0.1:6379&gt; BF.MADD customFilter foo bar baz
+</pre></div>
+
+
+<h1 id="cuckoo-filters">Cuckoo Filters<a class="headerlink" href="#cuckoo-filters" title="Permanent link">&para;</a></h1>
+<h2 id="cuckoo-adding-new-items-to-a-filter">Cuckoo: Adding new items to a filter<a class="headerlink" href="#cuckoo-adding-new-items-to-a-filter" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>A new filter is created for you if it does not yet exist</p>
+</blockquote>
+<div class="codehilite"><pre><span></span>127.0.0.1:6379&gt; CF.ADD newFilter foo
+(integer) 1
+</pre></div>
+
+
+<p>You can add the item multiple times. The filter will attempt to count it.</p>
+<h2 id="cuckoo-checking-whether-item-exists">Cuckoo: Checking whether item exists<a class="headerlink" href="#cuckoo-checking-whether-item-exists" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>127.0.0.1:6379&gt; CF.EXISTS newFilter foo
+(integer) 1
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>127.0.0.1:6379&gt; CF.EXISTS newFilter notpresent
+(integer) 0
+</pre></div>
+
+
+<h2 id="cuckoo-deleting-item-from-filter">Cuckoo: Deleting item from filter<a class="headerlink" href="#cuckoo-deleting-item-from-filter" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>127.0.0.1:6379&gt; CF.DEL newFilter foo
+(integer) 1
 </pre></div>
                 
                   
@@ -461,13 +449,13 @@ OK
           </a>
         
         
-          <a href="../Commands/" title="Commands" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../Bloom_Commands/" title="Bloom Commands" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Commands
+                Bloom Commands
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

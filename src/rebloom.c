@@ -585,6 +585,27 @@ static int isCount(RedisModuleString *s) {
     return toupper(ss[n - 1]) == 'T';
 }
 
+static int cfCheckCommon(RedisModuleCtx *ctx, RedisModuleString **argv, int argc,
+                         CuckooFilter *cf, int is_empty, int is_count) {
+    for (size_t ii = 2; ii < argc; ++ii) {
+        if (is_empty == 1) {
+            RedisModule_ReplyWithLongLong(ctx, 0);
+        } else {
+            size_t n;
+            const char *s = RedisModule_StringPtrLen(argv[ii], &n);
+            CuckooHash hash = CUCKOO_GEN_HASH(s, n);
+            long long rv;
+            if (is_count) {
+                rv = CuckooFilter_Count(cf, hash);
+            } else {
+                rv = CuckooFilter_Check(cf, hash);
+            }
+            RedisModule_ReplyWithLongLong(ctx, rv);
+        }
+    }
+    return REDISMODULE_OK;
+}
+
 /**
  * Copy-paste from BFCheck :'(
  */
@@ -613,24 +634,9 @@ static int CFCheck_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, i
         RedisModule_ReplyWithArray(ctx, argc - 2);
     }
 
-    for (size_t ii = 2; ii < argc; ++ii) {
-        if (is_empty == 1) {
-            RedisModule_ReplyWithLongLong(ctx, 0);
-        } else {
-            size_t n;
-            const char *s = RedisModule_StringPtrLen(argv[ii], &n);
-            CuckooHash hash = CUCKOO_GEN_HASH(s, n);
-            long long rv;
-            if (is_count) {
-                rv = CuckooFilter_Count(cf, hash);
-            } else {
-                rv = CuckooFilter_Check(cf, hash);
-            }
-            RedisModule_ReplyWithLongLong(ctx, rv);
-        }
-    }
-    return REDISMODULE_OK;
+    return cfCheckCommon(ctx, argv, argc, cf, is_empty, is_count);
 }
+
 
 static int CFDel_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc) {
     RedisModule_AutoMemory(ctx);
@@ -651,6 +657,37 @@ static int CFDel_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int
     const char *elem = RedisModule_StringPtrLen(argv[2], &elemlen);
     CuckooHash hash = CUCKOO_GEN_HASH(elem, elemlen);
     return RedisModule_ReplyWithLongLong(ctx, CuckooFilter_Delete(cf, hash));
+}
+
+
+static int CFFlush_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc) {
+    RedisModule_AutoMemory(ctx);
+    RedisModule_ReplicateVerbatim(ctx);
+
+    if (argc != 3) {
+        return RedisModule_WrongArity(ctx);
+    }
+
+    RedisModuleKey *key = RedisModule_OpenKey(ctx, argv[1], REDISMODULE_READ | REDISMODULE_WRITE);
+    CuckooFilter *cf;
+    int status = cfGetFilter(key, &cf);
+    if (status != SB_OK) {
+        return RedisModule_ReplyWithError(ctx, "Not found");
+    }
+
+    size_t elemlen;
+    const char *elem = RedisModule_StringPtrLen(argv[2], &elemlen);
+    CuckooHash hash = CUCKOO_GEN_HASH(elem, elemlen);
+
+    int rv;
+    rv = (int)CuckooFilter_Count(cf, hash);
+
+    int i;
+    for(i = 0;i < rv; i++){
+        CuckooFilter_Delete(cf, hash);
+    }
+
+    return RedisModule_ReplyWithLongLong(ctx, i);
 }
 
 static void fillCFHeader(CFHeader *header, const CuckooFilter *cf) {
@@ -1026,6 +1063,8 @@ int RedisModule_OnLoad(RedisModuleCtx *ctx, RedisModuleString **argv, int argc) 
 
     // Technically a write command, but doesn't change memory profile
     CREATE_CMD("CF.DEL", CFDel_RedisCommand, "write fast");
+    CREATE_CMD("CF.FLUSH", CFFlush_RedisCommand, "write fast");
+
 
     // AOF:
     CREATE_ROCMD("CF.SCANDUMP", CFScanDump_RedisCommand);
